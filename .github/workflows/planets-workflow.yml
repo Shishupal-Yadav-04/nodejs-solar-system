@@ -22,14 +22,16 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: 18
-
+            
+            - name: environment info
+              run: |
+                  echo "MONGO_URI: $MONGO_URI"
+                  echo "MONGO_USERNAME: $MONGO_USERNAME"
+                        
             - name: Install dependencies
               run: npm install
 
             - name: Run unit tests
               run: npm test
 
-            - name: environment info
-              run: |
-                  echo "MONGO_URI: $MONGO_URI"
-                  echo "MONGO_USERNAME: $MONGO_USERNAME"
+            
