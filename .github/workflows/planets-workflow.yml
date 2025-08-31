@@ -1,36 +1,83 @@
+# name: Solar System Planets Workflow
+# on:
+#     workflow_dispatch:
+#     push:
+#         branches:
+#             - main
+#             - 'feature/*'
+
+# env:
+#     MONGO_URI: "mongodb+srv://${{ vars.MONGO_USERNAME }}:${{ secrets.MONGO_PASSWORD }}@solar-test-db.rusjxzi.mongodb.net/superdata?retryWrites=true&w=majority"
+#     MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
+#     MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+# jobs:
+#     unit-testing:
+#         name: Unit Testing
+#         runs-on: ubuntu-latest
+#         steps:
+#             - name: Checkout repository
+#               uses: actions/checkout@v3
+
+#             - name: Set up NodeJS Version 18
+#               uses: actions/setup-node@v3
+#               with:
+#                   node-version: 18
+            
+#             - name: environment info
+#               run: |
+#                   echo "MONGO_URI: $MONGO_URI"
+#                   echo "MONGO_USERNAME: $MONGO_USERNAME"
+
+#             - name: Install dependencies
+#               run: npm install
+
+#             - name: Run unit tests
+#               run: npm test
+
 name: Solar System Planets Workflow
+
 on:
-    workflow_dispatch:
-    push:
-        branches:
-            - main
-            - 'feature/*'
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - 'feature/*'
 
 env:
-    MONGO_URI: "mongodb+srv://${{ vars.MONGO_USERNAME }}:${{ secrets.MONGO_PASSWORD }}@solar-test-db.rusjxzi.mongodb.net/superdata?retryWrites=true&w=majority"
-    MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
-    MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+  # Construct Mongo URI dynamically from variables + secrets
+  MONGO_URI: "mongodb+srv://${{ vars.MONGO_USERNAME }}:${{ secrets.MONGO_PASSWORD }}@${{ vars.CLUSTER_NAME }}.mongodb.net/${{ vars.DB_NAME }}?retryWrites=true&w=majority"
+  MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
+  MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+  CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
+  DB_NAME: ${{ vars.DB_NAME }}
+
 jobs:
-    unit-testing:
-        name: Unit Testing
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
+  unit-testing:
+    name: Unit Testing
+    runs-on: ubuntu-latest
 
-            - name: Set up NodeJS Version 18
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 18
-            
-            - name: environment info
-              run: |
-                  echo "MONGO_URI: $MONGO_URI"
-                  echo "MONGO_USERNAME: $MONGO_USERNAME"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Install dependencies
-              run: npm install
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
 
-            - name: Run unit tests
-              run: npm test
+      - name: Show environment info (safe values only)
+        run: |
+          echo "MONGO_USERNAME: $MONGO_USERNAME"
+          echo "CLUSTER_NAME: $CLUSTER_NAME"
+          echo "DB_NAME: $DB_NAME"
+        # Avoid printing MONGO_URI or password for security
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run unit tests
+        env:
+          MONGO_URI: ${{ env.MONGO_URI }}
+        run: npm test
 
