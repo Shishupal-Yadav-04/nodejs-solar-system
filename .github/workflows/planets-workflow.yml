@@ -7,7 +7,7 @@ on:
             - 'feature/*'
 
 env:
-    MONGO_URI: 'mongodb+srv://${{ vars.MONGO_USERNAME }}:${{ secrets.MONGO_PASSWORD }}@solar-test-db.rusjxzi.mongodb.net/?retryWrites=true&w=majority&appName=solar-test-db'
+    MONGO_URI: mongodb+srv://${{ vars.MONGO_USERNAME }}:${{ secrets.MONGO_PASSWORD }}@solar-test-db.rusjxzi.mongodb.net/?retryWrites=true&w=majority&appName=solar-test-db
     MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
     MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 jobs:
