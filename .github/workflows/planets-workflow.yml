@@ -1,7 +1,9 @@
 name: Solar System Planets Workflow
 
 on:
-  # workflow_dispatch:
+  workflow_dispatch: 
+    branches:
+      - main
   push:
     branches:
       - main
