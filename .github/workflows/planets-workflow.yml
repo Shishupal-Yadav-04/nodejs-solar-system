@@ -20,7 +20,7 @@ jobs:
     name: Unit Testing
     strategy:
       matrix:
-        nodejs-version: [18,19,20]
+        nodejs-version: ['18','19','20']
         operting-system: [ubuntu-latest,  macos-latest]
         exclude:
           - nodejs-version: '18'
@@ -55,7 +55,7 @@ jobs:
       - name: Archive Test Results 
         uses: actions/upload-artifact@v4
         with:
-          name: Mocha-test-results
+          name: my-artifact-${{ matrix.nodejs-version }}-$${{ matrix.operting-system }}
           path: test-results.xml
           retention-days: 1
 
