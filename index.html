@@ -100,7 +100,12 @@
             <!-- <h3 style="color:rgb(111, 255, 171); font-family: 'Encode Sans';" id="environment">ENVIRONMENT: " placeholder "</h3> -->
          </div>
       </div>
-      <div  id="planetImage">  
+      <div style="text-align:center;">
+         <input type="number" id="planetID" min="1" max="8" placeholder="Enter planet number (1-8)">
+         <button id="submit">Search</button>
+         <div id="planetImage" style="width:200px;height:200px;border-radius:50%;margin:20px auto;background-color:#eee;box-shadow:0 0 10px #ccc;"></div>
+         <div id="planetName" style="font-size:2em;font-weight:bold;margin:10px 0;"></div>
+         <div id="planetDescription" style="font-size:1.2em;margin:10px 0;"></div>
       </div>
       <script type="text/javascript"  src="app-controller.js" charset="utf-8"></script>
    </body>

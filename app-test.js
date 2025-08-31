@@ -1,12 +1,39 @@
-let mongoose = require("mongoose");
-let server = require("./app");
-let chai = require("chai");
-let chaiHttp = require("chai-http");
+const mongoose = require("mongoose");
+const server = require("./app");
+const chai = require("chai");
+const chaiHttp = require("chai-http");
 
 
 // Assertion 
 chai.should();
 chai.use(chaiHttp); 
+
+const mongoUsername = process.env.MONGO_USERNAME || 'daemon4546_db_user';
+const mongoPassword = process.env.MONGO_PASSWORD || '661NwD6qV63GxVzO';
+
+let mongouri = process.env.MONGO_URI;
+if (mongouri && mongouri.startsWith('mongodb://')) {
+  console.warn('Warning: MONGO_URI is set in deprecated format. Using SRV fallback.');
+  mongouri = null;
+}
+if (!mongouri) {
+  mongouri = `mongodb+srv://${mongoUsername}:${mongoPassword}@solar-test-db.rusjxzi.mongodb.net/superdata?retryWrites=true&w=majority`;
+}
+console.log("Using MongoDB URI (test):", mongouri);
+
+// Ensure ALL MongoDB connections in tests use mongouri
+before(async () => {
+  await mongoose.connect(mongouri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+});
+
+describe('Sanity Check', () => {
+  it('should run tests', () => {
+    // If you see this in output, Mocha is working
+  });
+});
 
 describe('Planets API Suite', () => {
 
@@ -187,4 +214,9 @@ describe('Testing Other Endpoints', () => {
         });
     });
 
+});
+
+after(async () => {
+  await mongoose.disconnect();
+  console.log("All tests finished.");
 });

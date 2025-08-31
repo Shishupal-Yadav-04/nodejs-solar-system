@@ -12,7 +12,7 @@ window.onload = function() {
             if (res.ok) {
                 return res.json();
             }
-            thrownewError('Request failed');
+            throw new Error('Request failed');
         }).catch(function(error) {
             console.log(error);
         })
@@ -46,7 +46,7 @@ function func() {
             if (res2.ok) {
                 return res2.json();
             }
-            thrownewError('Request failed.');
+            throw new Error('Request failed.');
         }).catch(function(error) {
             alert("Ooops, We have 8 planets.\nSelect a number from 0 - 8")
             console.log(error);
@@ -55,13 +55,19 @@ function func() {
             document.getElementById('planetName').innerHTML = ` ${data.name} `
 
             const element = document.getElementById("planetImage");
-            const image = ` ${data.image} `
-            element.style.backgroundImage  = "url("+image+")"
+            if (element && data.image) {
+                element.style.backgroundImage  = "url(" + data.image + ")";
+                element.style.backgroundSize = "cover";
+                element.style.backgroundPosition = "center";
+            }
 
             const planet_description = ` ${data.description} `
             document.getElementById('planetDescription').innerHTML = planet_description.replace(/(.{80})/g, "$1<br>");
 
-          
+            // Show velocity and distance if available
+            if (data.velocity && data.distance) {
+                document.getElementById('planetDescription').innerHTML += `<br><b>Velocity:</b> ${data.velocity}<br><b>Distance:</b> ${data.distance}`;
+            }
         });
 
 }
