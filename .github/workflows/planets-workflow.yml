@@ -18,16 +18,23 @@ env:
 jobs:
   unit-testing:
     name: Unit Testing
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        nodejs-version: ['18','19','20']
+        operting-system: [ubuntu-latest,  macos-latest]
+        exclude:
+          - nodejs-version: '18'
+            operting-system: macos-latest   # Node 20 not supported on macOS runners yet
 
+    runs-on: ${{ matrix.operting-system }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js 18
+      - name: Set up Node.js $${{ matrix.nodejs-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: ${{ matrix.nodejs-version }}
           cache: 'npm'
 
       - name: Show environment info (safe values only)
