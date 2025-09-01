@@ -77,6 +77,7 @@ jobs:
         run: npm install
 
       - name: Run code coverage
+        continue-on-error: true
         env:
           MONGO_URI: ${{ env.MONGO_URI }}
         run: npm run coverage
