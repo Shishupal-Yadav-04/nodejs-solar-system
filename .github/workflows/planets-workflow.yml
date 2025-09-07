@@ -100,5 +100,5 @@ jobs:
         with:
           name: code-coverage-report-${{ github.run_id }}
           path: coverage # The Folder containing coverage reports
-          retention-days: 5
+          retention-days: 4
 
