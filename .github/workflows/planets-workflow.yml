@@ -102,3 +102,16 @@ jobs:
           path: coverage # The Folder containing coverage reports
           retention-days: 4
 
+  docker:
+    name: Containerization with Docker
+    needs: [unit-testing, code-coverage]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
