@@ -20,7 +20,7 @@ jobs:
     name: Unit Testing
     services:
       mongo-db:
-        image: siddharth67/mongo-db:no-prod
+        image: shishupal123/nodejs-solar-system
         ports:
           - 27017:27017
     env:
