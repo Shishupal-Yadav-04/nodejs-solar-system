@@ -27,9 +27,10 @@ jobs:
   # Construct Mongo URI dynamically from variables + secrets
     #  MONGO_URI: "mongodb//localhost:27017/${{ vars.DB_NAME }}?retryWrites=true&w=majority"
      MONGO_URI: "mongodb//localhost:27017/superData"
+     MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
      MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-     CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
-    #  DB_NAME: ${{ vars.DB_NAME }}
+   
+    
     strategy:
       matrix:
         nodejs-version: ['18','19','20']
