@@ -20,7 +20,7 @@ jobs:
     name: Unit Testing
     services:
       mongo-db:
-        image: shishupal123/nodejs-solar-system
+        image: shishupal123/mongodb:v1
         ports:
           - 27017:27017
     env:
