@@ -120,7 +120,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: false
+          push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/nodejs-solar-system:${{ github.sha }}
 
       - name: Docker Image Test
@@ -135,6 +135,6 @@ jobs:
 
           export IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' solar-sysem-app)
           echo "Container IP Address: $IP"
-          sleep 15  # Wait for the container to start
+          sleep 20  # Wait for the container to start
           echo Testing Image URL using wget
           wget -q -O - 127.0.0.1:3000/live | grep live
