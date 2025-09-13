@@ -20,15 +20,9 @@ jobs:
     name: Unit Testing
     services:
       mongo-db:
-        image: shishupal123/mongodb:v1
+        image: mongo:6.0
         ports:
           - 27017:27017
-    env:
-  # Construct Mongo URI dynamically from variables + secrets
-    #  MONGO_URI: "mongodb//localhost:27017/${{ vars.DB_NAME }}?retryWrites=true&w=majority"
-     MONGO_URI: "mongodb//localhost:27017/superData"
-     MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
-     MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
    
     
     strategy:
